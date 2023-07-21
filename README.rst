@@ -96,4 +96,3 @@ Take a look at the examples directory
 Documentation
 =============
 API documentation for this library can be found on `Read the Docs <https://circuitpython-table.readthedocs.io/>`_.
-

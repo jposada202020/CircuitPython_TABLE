@@ -24,6 +24,10 @@ __repo__ = "https://github.com/jposada202020/CircuitPython_TABLE.git"
 
 
 class Table(displayio.Group):
+    """
+    Create a table with the given parameters.
+    """
+
     def __init__(
         self,
         originx,
@@ -68,10 +72,13 @@ class Table(displayio.Group):
         self.create_label_objects()
 
     def create_borders(self, originx, originy, text_lenght, text_height, color_index):
+        """
+        Create borders for the table
+        """
         draw_line(
             self._plotbitmap,
             originx - self._padding,
-            self._origin_y + self._dy - self._padding,
+            originy + self._dy - self._padding,
             originx + text_lenght + self._padding,
             self._origin_y + self._dy - self._padding,
             color_index,
@@ -105,6 +112,9 @@ class Table(displayio.Group):
         )
 
     def create_label_objects(self, color_index=2):
+        """
+        Create the label objects
+        """
         deltax = 0
 
         for row in self._table:

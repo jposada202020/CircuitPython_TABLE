@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 import board
-import displayio
+from table import Table
 
 my_table = Table(
     50,
