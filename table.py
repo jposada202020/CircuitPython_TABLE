@@ -80,55 +80,58 @@ class Table(displayio.Group):
             originx - self._padding,
             originy + self._dy - self._padding,
             originx + text_lenght + self._padding,
-            self._origin_y + self._dy - self._padding,
+            originy + self._dy - self._padding,
             color_index,
         )
 
         draw_line(
             self._plotbitmap,
             originx - self._padding,
-            self._origin_y + self._dy - self._padding,
+            originy + self._dy - self._padding,
             originx - self._padding,
-            self._origin_y + self._dy + text_height,
+            originy + self._dy + text_height,
             color_index,
         )
 
         draw_line(
             self._plotbitmap,
             originx - self._padding,
-            self._origin_y + self._dy + text_height,
+            originy + self._dy + text_height,
             originx + text_lenght + self._padding,
-            self._origin_y + self._dy + text_height,
+            originy + self._dy + text_height,
             color_index,
         )
 
         draw_line(
             self._plotbitmap,
             originx + text_lenght + self._padding,
-            self._origin_y + self._dy - self._padding,
+            originy + self._dy - self._padding,
             originx + text_lenght + self._padding,
-            self._origin_y + self._dy + text_height,
+            originy + self._dy + text_height,
             color_index,
         )
 
     def create_label_objects(self, color_index=2):
         """
-        Create the label objects
+        Create label objects
         """
-        deltax = 0
+        deltay = 0
 
         for row in self._table:
+            deltax = 0
             if len(row) > 1:
                 for cell_text in row:
                     text = bitmap_label.Label(self._font_to_use, text=cell_text)
                     text.x = self._origin_x + deltax
-                    text.y = self._origin_y
+                    text.y = self._origin_y + deltay
+
                     self.create_borders(
                         self._origin_x + deltax,
-                        self._origin_y,
+                        self._origin_y + deltay,
                         text.bitmap.width,
                         text.bitmap.height,
                         color_index,
                     )
                     self.append(text)
                     deltax = deltax + self._padding * 2 + text.bitmap.width
+                deltay = deltay + self._padding * 2 + self._dy + text.bitmap.height

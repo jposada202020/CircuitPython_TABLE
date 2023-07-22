@@ -10,7 +10,7 @@ my_table = Table(
     50,
     480,
     320,
-    [("Hello", "I am", "Blinka", "YAY!")],
+    [("Heya", "I am", "Jose!", "YAY!"), ("Hello", "I am", "Blinka", "YAY!")],
     "fonts/LeagueSpartan-Bold-16.bdf",
 )
 
