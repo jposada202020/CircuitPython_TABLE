@@ -33,6 +33,7 @@ class Table(displayio.Group):
     :param int height: The height of the table.
     :param list table: The table to be displayed.
     :param str font_file: The font file to be used.
+    :param int color: Line color. Defaults to 0xFFFFFF. White.
 
     """
 
@@ -45,6 +46,7 @@ class Table(displayio.Group):
         structure: list = None,
         table: list = None,
         font_file=None,
+        color: int = 0xFFFFFF,
     ) -> None:
         super().__init__(x=0, y=0, scale=1)
         self._table = table
@@ -67,7 +69,7 @@ class Table(displayio.Group):
 
         plot_palette = displayio.Palette(20)
         plot_palette.make_transparent(0)
-        plot_palette[1] = 0xFFFFFF
+        plot_palette[1] = color
         plot_palette[2] = 0xFF0000
         plot_palette[3] = 0x00FF00
         plot_palette[4] = 0x0000FF
