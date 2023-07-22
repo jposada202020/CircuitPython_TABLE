@@ -26,6 +26,14 @@ __repo__ = "https://github.com/jposada202020/CircuitPython_TABLE.git"
 class Table(displayio.Group):
     """
     Create a table with the given parameters.
+
+    :param int originx: The x origin of the table.
+    :param int originy: The y origin of the table.
+    :param int width: The width of the table.
+    :param int height: The height of the table.
+    :param list table: The table to be displayed.
+    :param str font_file: The font file to be used.
+
     """
 
     def __init__(
