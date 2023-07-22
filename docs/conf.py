@@ -32,6 +32,8 @@ autodoc_mock_imports = [
     "ulab",
     "displayio",
     "terminalio",
+    "adafruit_bitmap_font",
+    "adafruit_display_text",
 ]
 
 # Show the docstring from both the class and its __init__() method.
