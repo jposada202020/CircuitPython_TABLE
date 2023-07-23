@@ -33,23 +33,26 @@ class Table(displayio.Group):
     :param int height: The height of the table.
     :param list table: The table to be displayed.
     :param str font_file: The font file to be used.
-    :param int color: Line color. Defaults to 0xFFFFFF. White.
+    :param int color: Line color. Defaults to 0xFFFFFF
+    :param int text_color: Text color. Defaults to 0x123456
 
     """
 
     def __init__(
         self,
-        originx,
-        originy,
-        width=480,
-        height=320,
+        originx: int,
+        originy: int,
+        width: int = 200,
+        height: int = 200,
         structure: list = None,
         table: list = None,
         font_file=None,
-        color: int = 0xFFFFFF,
+        border_color: int = 0xFFFFFF,
+        text_color: int = 0x123456,
     ) -> None:
         super().__init__(x=0, y=0, scale=1)
         self._table = table
+        self._text_color = text_color
 
         self._plotbitmap = displayio.Bitmap(width, height, 20)
 
@@ -69,8 +72,8 @@ class Table(displayio.Group):
 
         plot_palette = displayio.Palette(20)
         plot_palette.make_transparent(0)
-        plot_palette[1] = color
-        plot_palette[2] = 0xFF0000
+        plot_palette[1] = 0xFFFFFF
+        plot_palette[2] = border_color
         plot_palette[3] = 0x00FF00
         plot_palette[4] = 0x0000FF
         plot_palette[5] = 0xFFFF00
@@ -142,7 +145,9 @@ class Table(displayio.Group):
         for j, row in enumerate(self._table):
             if len(row) > 1:
                 for i, cell_text in enumerate(row):
-                    text = bitmap_label.Label(self._font_to_use, text=cell_text)
+                    text = bitmap_label.Label(
+                        self._font_to_use, text=cell_text, color=self._text_color
+                    )
                     text.x = self._colum_size[i]
                     text.y = self._row_size[j]
 
