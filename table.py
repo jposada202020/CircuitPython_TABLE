@@ -161,12 +161,11 @@ class Table(displayio.Group):
 
         else:
             for j, row in enumerate(self._table):
-                if len(row) > 1:
-                    for i, cell_text in enumerate(row):
-                        text = bitmap_label.Label(
-                            self._font_to_use, text=cell_text, color=self._text_color
-                        )
-                        text.x = self._colum_size[i] + self._padding
-                        text.y = self._row_size[j] + self._padding - self._dy
+                for i, cell_text in enumerate(row):
+                    text = bitmap_label.Label(
+                        self._font_to_use, text=cell_text, color=self._text_color
+                    )
+                    text.x = self._colum_size[i] + self._padding
+                    text.y = self._row_size[j] + self._padding - self._dy
 
                     self.append(text)
