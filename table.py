@@ -50,27 +50,28 @@ class Table(displayio.Group):
         border_color: int = 0xFFFFFF,
         text_color: int = 0x123456,
     ) -> None:
-        super().__init__(x=0, y=0, scale=1)
+        super().__init__(x=originx, y=originy, scale=1)
+        self._padding = 3
+        self._plotbitmap = displayio.Bitmap(
+            width + 2 * self._padding, height + 2 * self._padding, 10
+        )
         self._table = table
         self._text_color = text_color
 
-        self._plotbitmap = displayio.Bitmap(width, height, 20)
-
-        self._colum_size = [originx]
-        self._row_size = [originy]
+        self._colum_size = [0]
+        self._row_size = [0]
         self._font_to_use = bitmap_font.load_font(font_file)
-        width, height, _, self._dy = self._font_to_use.get_bounding_box()
+        widtht, heightt, _, self._dy = self._font_to_use.get_bounding_box()
 
-        self._origin_x = originx
-        self._origin_y = originy
-        self._padding = 3
+        self._origin_x = 0
+        self._origin_y = 0
 
         self._get_structure(structure)
 
-        self._width = width
-        self._height = height
+        self._width = widtht
+        self._height = heightt
 
-        plot_palette = displayio.Palette(20)
+        plot_palette = displayio.Palette(10)
         plot_palette.make_transparent(0)
         plot_palette[1] = 0xFFFFFF
         plot_palette[2] = border_color
@@ -100,10 +101,16 @@ class Table(displayio.Group):
         distancev = 0
 
         for row in structure:
+            if len(structure[0]) == 1:
+                self._colum_size.append(
+                    self._origin_x + distanceh + len(row[0]) * texth.width
+                )
+                break
             for element in row:
-                start = self._origin_x + distanceh + len(element * texth.width)
+                start = self._origin_x + distanceh + len(element) * texth.width
+
                 self._colum_size.append(start)
-                distanceh = distanceh + len(element * texth.width)
+                distanceh = distanceh + len(element) * texth.width
 
         for row in self._table:
             start = self._origin_y + distancev + textv.height
@@ -120,20 +127,20 @@ class Table(displayio.Group):
         for distance in self._colum_size:
             draw_line(
                 self._plotbitmap,
-                distance - self._padding,
-                self._origin_y + self._dy - self._padding,
-                distance - self._padding,
-                self._row_size[-1] + self._dy - self._padding,
+                distance,
+                self._origin_y,
+                distance,
+                self._row_size[-1],
                 color_index,
             )
 
         for distance in self._row_size:
             draw_line(
                 self._plotbitmap,
-                self._origin_x - self._padding,
-                distance + self._dy - self._padding,
-                self._colum_size[-1] - self._padding,
-                distance + self._dy - self._padding,
+                self._origin_x,
+                distance,
+                self._colum_size[-1],
+                distance,
                 color_index,
             )
 
@@ -142,13 +149,24 @@ class Table(displayio.Group):
         Create label objects
         """
 
-        for j, row in enumerate(self._table):
-            if len(row) > 1:
-                for i, cell_text in enumerate(row):
-                    text = bitmap_label.Label(
-                        self._font_to_use, text=cell_text, color=self._text_color
-                    )
-                    text.x = self._colum_size[i]
-                    text.y = self._row_size[j]
+        if len(self._colum_size) == 2:
+            for j, row in enumerate(self._table):
+                text = bitmap_label.Label(
+                    self._font_to_use, text=row, color=self._text_color
+                )
+                text.x = self._colum_size[0] + self._padding
+                text.y = self._row_size[j] + self._padding - self._dy
+
+                self.append(text)
+
+        else:
+            for j, row in enumerate(self._table):
+                if len(row) > 1:
+                    for i, cell_text in enumerate(row):
+                        text = bitmap_label.Label(
+                            self._font_to_use, text=cell_text, color=self._text_color
+                        )
+                        text.x = self._colum_size[i] + self._padding
+                        text.y = self._row_size[j] + self._padding - self._dy
 
                     self.append(text)
