@@ -60,6 +60,7 @@ class Table(displayio.Group):
 
         self._colum_size = [0]
         self._row_size = [0]
+
         self._font_to_use = bitmap_font.load_font(font_file)
         widtht, heightt, _, self._dy = self._font_to_use.get_bounding_box()
 
@@ -95,8 +96,10 @@ class Table(displayio.Group):
         Get the structure of the table
 
         """
+
         texth = bitmap_label.Label(self._font_to_use, text="-")
-        textv = bitmap_label.Label(self._font_to_use, text="|")
+        textv = bitmap_label.Label(self._font_to_use, text="Y")
+
         distanceh = 0
         distancev = 0
 
@@ -110,12 +113,12 @@ class Table(displayio.Group):
                 start = self._origin_x + distanceh + len(element) * texth.width
 
                 self._colum_size.append(start)
-                distanceh = distanceh + len(element) * texth.width
+                distanceh = distanceh + len(element) * texth.width + self._padding
 
         for row in self._table:
             start = self._origin_y + distancev + textv.height
             self._row_size.append(start)
-            distancev = distancev + textv.height
+            distancev = distancev + textv.height + self._padding
 
     def create_borders(self, color_index=2):
         """
@@ -166,6 +169,6 @@ class Table(displayio.Group):
                         self._font_to_use, text=cell_text, color=self._text_color
                     )
                     text.x = self._colum_size[i] + self._padding
-                    text.y = self._row_size[j] + self._padding - self._dy
+                    text.y = self._row_size[j] - self._dy + self._padding
 
                     self.append(text)
