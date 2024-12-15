@@ -16,4 +16,4 @@ my_table = Table(
 )
 
 display = board.DISPLAY
-display.show(my_table)
+display.root_group = my_table
